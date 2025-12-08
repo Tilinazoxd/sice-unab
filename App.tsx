@@ -13,6 +13,7 @@ import {
   PieChart,
   Printer,
   ChevronRight,
+  ChevronDown,
   Menu,
   X,
   ArrowRight,
@@ -34,6 +35,9 @@ import { THEORY_TOPICS, UNAB_COLORS, Z_TABLE_DATA, T_TABLE_DATA, TEAM_MEMBERS } 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<'home' | 'calculator' | 'theory' | 'credits'>('home');
   const [activeTopicId, setActiveTopicId] = useState<string>(THEORY_TOPICS[0].id);
+  
+  // Mobile Theory Menu State
+  const [mobileTheoryMenuOpen, setMobileTheoryMenuOpen] = useState(false);
   
   // Calculator State
   const [calcMode, setCalcMode] = useState<'descriptive' | 'hypothesis'>('descriptive');
@@ -513,19 +517,25 @@ const App: React.FC = () => {
 
     return (
       <div className="flex flex-col md:flex-row h-full min-h-[calc(100vh-80px)] bg-slate-50">
-        {/* Sidebar Accordion-like */}
-        <div className="w-full md:w-1/4 bg-white border-r border-gray-200 shadow-sm z-10 flex flex-col h-[calc(100vh-80px)] sticky top-[80px]">
-          <div className="p-4 border-b border-gray-100 bg-gray-50">
+        {/* Sidebar Accordion-like - Mobile Responsive */}
+        <div className="w-full md:w-1/4 bg-white border-b md:border-b-0 md:border-r border-gray-200 shadow-sm z-30 flex flex-col md:h-[calc(100vh-80px)] sticky top-[80px] h-auto transition-all">
+          <div 
+             className="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center cursor-pointer md:cursor-default"
+             onClick={() => setMobileTheoryMenuOpen(!mobileTheoryMenuOpen)}
+          >
              <h3 className="font-bold text-[#003366] flex items-center text-lg">
                <BookOpen size={20} className="mr-2" /> Contenido Académico
              </h3>
+             <div className="md:hidden text-[#003366]">
+                 {mobileTheoryMenuOpen ? <ChevronDown size={20} className="transform rotate-180 transition-transform" /> : <ChevronDown size={20} className="transition-transform" />}
+             </div>
           </div>
-          <div className="overflow-y-auto flex-grow p-2">
+          <div className={`md:flex-grow md:overflow-y-auto p-2 bg-white ${mobileTheoryMenuOpen ? 'block border-t border-gray-100 max-h-[60vh] overflow-y-auto shadow-inner' : 'hidden md:block'}`}>
             <ul className="space-y-1">
               {THEORY_TOPICS.map(topic => (
                 <li key={topic.id}>
                   <button
-                    onClick={() => setActiveTopicId(topic.id)}
+                    onClick={() => { setActiveTopicId(topic.id); setMobileTheoryMenuOpen(false); }}
                     className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between group ${activeTopicId === topic.id ? 'bg-[#003366] text-white shadow-md' : 'text-gray-600 hover:bg-blue-50 hover:text-blue-800'}`}
                   >
                     <span className="font-medium">{topic.title}</span>
@@ -538,7 +548,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Content Area */}
-        <div className="w-full md:w-3/4 p-6 md:p-10 overflow-y-auto h-[calc(100vh-80px)]">
+        <div className="w-full md:w-3/4 p-6 md:p-10 md:overflow-y-auto md:h-[calc(100vh-80px)] h-auto">
           {activeTopic && !activeTopic.isTable && (
             <div className="max-w-4xl mx-auto space-y-8 animate-fadeIn">
               {/* Header */}
