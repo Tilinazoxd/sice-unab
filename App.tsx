@@ -25,15 +25,20 @@ import {
   Activity,
   CheckCircle,
   AlertTriangle,
-  Users
+  Users,
+  ClipboardList,
+  ExternalLink,
+  Award,
+  Star,
+  GraduationCap
 } from 'lucide-react';
 import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine, BarChart, Bar, AreaChart, Area, ComposedChart, Line } from 'recharts';
 import { DataPoint, UnivariateResults, BivariateResults, StatMode, TheoryTopic, TheorySection, HypothesisInput, HypothesisResult } from './types';
 import { calculateUnivariate, calculateBivariate, getConfidenceIntervalSteps, calculateHypothesisTest } from './utils/statsEngine';
-import { THEORY_TOPICS, UNAB_COLORS, Z_TABLE_DATA, T_TABLE_DATA, TEAM_MEMBERS } from './constants';
+import { THEORY_TOPICS, UNAB_COLORS, Z_TABLE_DATA, T_TABLE_DATA, TEAM_MEMBERS, TEST_TOPICS } from './constants';
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<'home' | 'calculator' | 'theory' | 'credits'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'calculator' | 'theory' | 'credits' | 'tests'>('home');
   const [activeTopicId, setActiveTopicId] = useState<string>(THEORY_TOPICS[0].id);
   
   // Mobile Theory Menu State
@@ -249,6 +254,13 @@ const App: React.FC = () => {
               <span>Teoría</span>
             </button>
             <button
+              onClick={() => setActiveView('tests')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${activeView === 'tests' ? 'bg-[#fbbf24] text-[#003366] font-bold shadow-md' : 'hover:bg-blue-800 text-blue-100'}`}
+            >
+              <ClipboardList size={18} />
+              <span>Tests</span>
+            </button>
+            <button
               onClick={() => setActiveView('credits')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${activeView === 'credits' ? 'bg-[#fbbf24] text-[#003366] font-bold shadow-md' : 'hover:bg-blue-800 text-blue-100'}`}
             >
@@ -265,7 +277,7 @@ const App: React.FC = () => {
 
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#002855] px-4 py-2 space-y-2 border-t border-blue-800">
-           {['home', 'calculator', 'theory', 'credits'].map((view) => (
+           {['home', 'calculator', 'theory', 'tests', 'credits'].map((view) => (
              <button
                key={view}
                onClick={() => { setActiveView(view as any); setMobileMenuOpen(false); }}
@@ -274,8 +286,9 @@ const App: React.FC = () => {
                {view === 'home' && <Home size={18} />}
                {view === 'calculator' && <Calculator size={18} />}
                {view === 'theory' && <BookOpen size={18} />}
+               {view === 'tests' && <ClipboardList size={18} />}
                {view === 'credits' && <Users size={18} />}
-               <span>{view === 'home' ? 'Inicio' : view === 'calculator' ? 'Calculadora' : view === 'theory' ? 'Teoría' : 'Créditos'}</span>
+               <span>{view === 'home' ? 'Inicio' : view === 'calculator' ? 'Calculadora' : view === 'theory' ? 'Teoría' : view === 'tests' ? 'Tests' : 'Créditos'}</span>
              </button>
            ))}
         </div>
@@ -360,6 +373,100 @@ const App: React.FC = () => {
                 Acceso directo y descarga de Tablas Z y T-Student digitalizadas para consultas rápidas durante exámenes o prácticas.
               </p>
            </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTests = () => (
+    <div className="flex flex-col min-h-[calc(100vh-80px)] bg-slate-50 relative">
+      {/* Background Overlay */}
+      <div className="absolute inset-0 z-0">
+          <img 
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1920&auto=format&fit=crop" 
+              alt="Test Background" 
+              className="w-full h-full object-cover opacity-[0.03]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#003366]/5 to-slate-50/95"></div>
+      </div>
+
+      {/* Hero Section */}
+      <div className="relative z-10 bg-[#003366] text-white py-16 px-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Tests de Evaluación – Estadística</h1>
+          <p className="text-blue-200 text-lg font-light max-w-2xl mx-auto">Mide tu nivel de comprensión y refuerza tus conocimientos.</p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        
+        {/* Intro Card */}
+        <div className="max-w-5xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-blue-100 mb-12 text-center md:text-left flex flex-col md:flex-row items-center gap-8">
+            <div className="bg-blue-50 p-6 rounded-full text-[#003366]">
+                <Award size={48} />
+            </div>
+            <div>
+               <h2 className="text-2xl font-bold text-gray-800 mb-3">Bienvenido al módulo de evaluación</h2>
+               <p className="text-gray-600 leading-relaxed text-lg mb-4">
+                 Este apartado ha sido diseñado para que pongas a prueba lo aprendido durante el curso. Los tests son interactivos y están organizados por nivel de dificultad para asegurar un aprendizaje progresivo.
+               </p>
+               <div className="flex flex-wrap gap-4 text-sm font-medium text-gray-500">
+                  <span className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Refuerzo académico</span>
+                  <span className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Evaluaciones externas (Kahoot)</span>
+                  <span className="flex items-center"><CheckCircle size={16} className="text-green-500 mr-2" /> Progresión por niveles</span>
+               </div>
+            </div>
+        </div>
+
+        {/* Topics Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+           {TEST_TOPICS.map((topic, idx) => (
+             <div key={idx} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col h-full group">
+                <div className="bg-[#003366] px-6 py-4 border-b-4 border-[#fbbf24]">
+                   <h3 className="text-white font-bold text-lg flex items-center">
+                      <GraduationCap size={20} className="mr-2 text-[#fbbf24]" />
+                      {topic.title}
+                   </h3>
+                </div>
+                <div className="p-6 flex-grow flex flex-col justify-center space-y-4">
+                   <p className="text-sm text-gray-500 mb-2 italic">Selecciona un nivel de dificultad:</p>
+                   {topic.levels.map((level, lvlIdx) => {
+                      let btnClass = "";
+                      let iconColor = "";
+                      
+                      if(level.difficulty === 'Fácil') {
+                         btnClass = "bg-teal-50 text-teal-800 border-teal-200 hover:bg-teal-100";
+                         iconColor = "text-teal-600";
+                      } else if(level.difficulty === 'Medio') {
+                         btnClass = "bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100";
+                         iconColor = "text-blue-600";
+                      } else {
+                         btnClass = "bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100";
+                         iconColor = "text-purple-600";
+                      }
+
+                      return (
+                        <a 
+                          key={lvlIdx}
+                          href={level.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className={`flex items-center justify-between p-3 rounded-lg border transition-all shadow-sm hover:shadow-md group/btn ${btnClass}`}
+                        >
+                           <div className="flex flex-col text-left">
+                              <span className="font-bold flex items-center">
+                                 {level.difficulty}
+                                 {level.difficulty === 'Difícil' && <Star size={12} className="ml-1 fill-current" />}
+                              </span>
+                              <span className="text-xs opacity-75">{level.subtitle}</span>
+                           </div>
+                           <ExternalLink size={16} className={`opacity-50 group-hover/btn:opacity-100 transition-opacity ${iconColor}`} />
+                        </a>
+                      );
+                   })}
+                </div>
+             </div>
+           ))}
         </div>
       </div>
     </div>
@@ -1291,6 +1398,7 @@ const App: React.FC = () => {
         {activeView === 'home' && renderHome()}
         {activeView === 'calculator' && renderCalculator()}
         {activeView === 'theory' && renderTheory()}
+        {activeView === 'tests' && renderTests()}
         {activeView === 'credits' && renderCredits()}
       </main>
       <footer className="bg-[#002855] text-white py-6 mt-auto no-print border-t border-blue-900">

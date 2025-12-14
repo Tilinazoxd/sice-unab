@@ -91,6 +91,156 @@ export const TEAM_MEMBERS = [
   }
 ];
 
+export const TEST_TOPICS = [
+  {
+    id: 'central-tendency',
+    title: 'Medidas de Tendencia Central',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=387863e7-1e79-4a4e-b224-57d4dfe6f5e2&gameMode=nano',
+        subtitle: 'Ideal para comenzar'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=6471286f-6f6b-4d7b-bdd7-0977c8245b66&gameMode=nano',
+        subtitle: 'Refuerza conceptos'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=bfe93acd-ed45-4628-ba31-40e6822cead8&gameMode=nano',
+        subtitle: 'Nivel avanzado'
+      }
+    ]
+  },
+  {
+    id: 'dispersion',
+    title: 'Medidas de Dispersión',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=f6a6fb4e-7fcb-40c2-bdea-fd8a3c560fed&gameMode=nano',
+        subtitle: 'Conceptos básicos'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=e2a54cd6-a5b3-432e-a493-07d35db43a7a&gameMode=nano',
+        subtitle: 'Cálculo y análisis'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=ece51504-d090-4d58-9473-5baa51d5286a&gameMode=nano',
+        subtitle: 'Reto de variabilidad'
+      }
+    ]
+  },
+  {
+    id: 'covariance',
+    title: 'Covarianza y Correlación',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=b3487d84-da0f-4245-9db0-5f7fa6eb9dd6&gameMode=nano',
+        subtitle: 'Identifica relaciones'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=784896ea-dbec-43be-a326-d61d11950341&gameMode=nano',
+        subtitle: 'Interpretación de r'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=af9d65f1-cc4d-418d-8011-e778823cdeee&gameMode=nano',
+        subtitle: 'Análisis profundo'
+      }
+    ]
+  },
+  {
+    id: 'regression',
+    title: 'Regresión Lineal Simple',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=cf9cbdf0-75d8-4548-8f15-f28fe373f412&gameMode=nano',
+        subtitle: 'La recta de ajuste'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=2032d49b-4c84-4c5a-9105-bd20ff8a2bae&gameMode=nano',
+        subtitle: 'Predicciones'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=8103b250-29f4-4269-9546-0cc28a568d76&gameMode=nano',
+        subtitle: 'Modelado avanzado'
+      }
+    ]
+  },
+  {
+    id: 'confidence',
+    title: 'Intervalos de Confianza',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=52534394-a9d6-4a3c-9dca-4f0fa8065798&gameMode=nano',
+        subtitle: 'Estimación puntual'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=2b22b875-a552-46af-99ae-c05021e2a762&gameMode=nano',
+        subtitle: 'Cálculo de intervalos'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=c3e88b4f-2ebc-4d99-9937-7bbb86c4b06b&gameMode=nano',
+        subtitle: 'Interpretación crítica'
+      }
+    ]
+  },
+  {
+    id: 'hypothesis',
+    title: 'Pruebas de Hipótesis',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=36d3d5f5-05cb-4020-8023-355ee7e72f09&gameMode=nano',
+        subtitle: 'H₀ vs H₁'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=5d93f7d5-4c26-457d-a36c-3b9d5f208f80&gameMode=nano',
+        subtitle: 'Valores P y decisiones'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=26de24df-5055-4983-8cfa-8f55116ecaa8&gameMode=nano',
+        subtitle: 'Errores Tipo I y II'
+      }
+    ]
+  },
+  {
+    id: 'probability',
+    title: 'Probabilidades',
+    levels: [
+      {
+        difficulty: 'Fácil',
+        url: 'https://kahoot.it/solo?quizId=458a558a-1fff-4ddc-9887-615dfddfa31a&gameMode=nano',
+        subtitle: 'Conceptos de azar'
+      },
+      {
+        difficulty: 'Medio',
+        url: 'https://kahoot.it/solo?quizId=e31f7170-a7aa-4736-9260-ca055bbaf2f2&gameMode=nano',
+        subtitle: 'Regla de Laplace'
+      },
+      {
+        difficulty: 'Difícil',
+        url: 'https://kahoot.it/solo?quizId=4edc88b3-5df8-4c1f-b6ce-534be1bbaff7&gameMode=nano',
+        subtitle: 'Eventos compuestos'
+      }
+    ]
+  }
+];
+
 export const THEORY_TOPICS: TheoryTopic[] = [
   {
     id: 'central-tendency',
