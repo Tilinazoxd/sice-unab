@@ -14,6 +14,7 @@ import {
   Printer,
   ChevronRight,
   ChevronDown,
+  ChevronUp,
   Menu,
   X,
   ArrowRight,
@@ -30,7 +31,11 @@ import {
   ExternalLink,
   Award,
   Star,
-  GraduationCap
+  GraduationCap,
+  MessageCircleQuestion,
+  HelpCircle,
+  Lightbulb,
+  MessageSquare
 } from 'lucide-react';
 import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ReferenceLine, BarChart, Bar, AreaChart, Area, ComposedChart, Line } from 'recharts';
 import { DataPoint, UnivariateResults, BivariateResults, StatMode, TheoryTopic, TheorySection, HypothesisInput, HypothesisResult } from './types';
@@ -38,7 +43,7 @@ import { calculateUnivariate, calculateBivariate, getConfidenceIntervalSteps, ca
 import { THEORY_TOPICS, UNAB_COLORS, Z_TABLE_DATA, T_TABLE_DATA, TEAM_MEMBERS, TEST_TOPICS } from './constants';
 
 const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<'home' | 'calculator' | 'theory' | 'credits' | 'tests'>('home');
+  const [activeView, setActiveView] = useState<'home' | 'calculator' | 'theory' | 'credits' | 'tests' | 'faq'>('home');
   const [activeTopicId, setActiveTopicId] = useState<string>(THEORY_TOPICS[0].id);
   
   // Mobile Theory Menu State
@@ -65,6 +70,9 @@ const App: React.FC = () => {
     significance: 0.05
   });
   const [hypResult, setHypResult] = useState<HypothesisResult | null>(null);
+
+  // FAQ State
+  const [openFaqIndex, setOpenFaqIndex] = useState<string | null>(null);
 
   // Mobile Menu
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -213,6 +221,10 @@ const App: React.FC = () => {
       printWindow.document.close();
   };
 
+  const toggleFaq = (index: string) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
   // --- Renderers ---
 
   const renderHeader = () => (
@@ -261,6 +273,13 @@ const App: React.FC = () => {
               <span>Tests</span>
             </button>
             <button
+              onClick={() => setActiveView('faq')}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${activeView === 'faq' ? 'bg-[#fbbf24] text-[#003366] font-bold shadow-md' : 'hover:bg-blue-800 text-blue-100'}`}
+            >
+              <MessageCircleQuestion size={18} />
+              <span>Foro / FAQ</span>
+            </button>
+            <button
               onClick={() => setActiveView('credits')}
               className={`flex items-center space-x-2 px-4 py-2 rounded-md transition-all ${activeView === 'credits' ? 'bg-[#fbbf24] text-[#003366] font-bold shadow-md' : 'hover:bg-blue-800 text-blue-100'}`}
             >
@@ -277,7 +296,7 @@ const App: React.FC = () => {
 
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#002855] px-4 py-2 space-y-2 border-t border-blue-800">
-           {['home', 'calculator', 'theory', 'tests', 'credits'].map((view) => (
+           {['home', 'calculator', 'theory', 'tests', 'faq', 'credits'].map((view) => (
              <button
                key={view}
                onClick={() => { setActiveView(view as any); setMobileMenuOpen(false); }}
@@ -287,8 +306,9 @@ const App: React.FC = () => {
                {view === 'calculator' && <Calculator size={18} />}
                {view === 'theory' && <BookOpen size={18} />}
                {view === 'tests' && <ClipboardList size={18} />}
+               {view === 'faq' && <MessageCircleQuestion size={18} />}
                {view === 'credits' && <Users size={18} />}
-               <span>{view === 'home' ? 'Inicio' : view === 'calculator' ? 'Calculadora' : view === 'theory' ? 'Teoría' : view === 'tests' ? 'Tests' : 'Créditos'}</span>
+               <span>{view === 'home' ? 'Inicio' : view === 'calculator' ? 'Calculadora' : view === 'theory' ? 'Teoría' : view === 'tests' ? 'Tests' : view === 'faq' ? 'Foro / FAQ' : 'Créditos'}</span>
              </button>
            ))}
         </div>
@@ -377,6 +397,176 @@ const App: React.FC = () => {
       </div>
     </div>
   );
+
+  const renderFAQ = () => {
+    const faqCategories = [
+      {
+        title: "Sobre la estadística",
+        icon: Sigma,
+        questions: [
+          {
+            q: "¿Qué es la estadística?",
+            a: "La estadística es la ciencia que se encarga de recopilar, organizar, analizar e interpretar datos para tomar decisiones informadas. Se divide principalmente en estadística descriptiva (resumir datos) y estadística inferencial (hacer predicciones sobre una población basándose en una muestra)."
+          },
+          {
+            q: "¿Para qué sirve la estadística en la vida real?",
+            a: "Sirve para entender tendencias, predecir el clima, analizar el riesgo en seguros, mejorar tratamientos médicos, optimizar procesos de producción y tomar decisiones económicas, entre muchas otras aplicaciones diarias."
+          },
+          {
+            q: "¿Por qué es importante la estadística en ingeniería?",
+            a: "En ingeniería, la estadística es vital para el control de calidad, el diseño de experimentos, la gestión de proyectos y la optimización de procesos. Permite manejar la incertidumbre y la variabilidad inherente en los sistemas físicos."
+          },
+          {
+            q: "¿Qué diferencia hay entre estadística descriptiva e inferencial?",
+            a: "La estadística descriptiva se limita a resumir y describir los datos que tenemos (mediante gráficos, promedios, etc.). La estadística inferencial utiliza esos datos para hacer generalizaciones, predicciones o estimaciones sobre una población más grande, asumiendo cierto margen de error."
+          }
+        ]
+      },
+      {
+        title: "Sobre el curso",
+        icon: GraduationCap,
+        questions: [
+          {
+            q: "¿Qué temas abarca el curso de estadística?",
+            a: "El curso generalmente cubre desde la recolección de datos y medidas de tendencia central (media, moda, mediana), pasando por medidas de dispersión, probabilidad básica, hasta temas avanzados como distribuciones de probabilidad, intervalos de confianza y pruebas de hipótesis."
+          },
+          {
+            q: "¿Qué temas son más importantes para el examen?",
+            a: "Aunque todo el temario es relevante, es crucial dominar la interpretación de la desviación estándar, el cálculo de probabilidades usando la distribución normal y, fundamentalmente, el planteamiento correcto de las hipótesis nula y alternativa en la estadística inferencial."
+          },
+          {
+            q: "¿Qué errores son comunes en los exámenes de estadística?",
+            a: "Los errores más frecuentes incluyen: confundir la desviación estándar muestral con la poblacional, errores de signo en la fórmula Z o T, no identificar correctamente si la prueba es de una o dos colas, y fallar en la interpretación contextual del resultado (p.ej., solo dar el número sin explicar qué significa)."
+          }
+        ]
+      },
+      {
+        title: "Sobre la plataforma",
+        icon: Activity,
+        questions: [
+          {
+            q: "¿Para qué sirve esta plataforma?",
+            a: "SICE (Sistema Integral de Cálculo Estadístico) es una herramienta de apoyo diseñada para que los estudiantes de la UNAB puedan verificar sus cálculos manuales, visualizar conceptos teóricos y practicar con ejercicios autoevaluables."
+          },
+          {
+            q: "¿En qué orden se recomienda usar las secciones?",
+            a: "Se recomienda iniciar en el apartado de 'Teoría' para repasar los conceptos. Luego, utilizar la 'Calculadora' para resolver ejercicios prácticos paso a paso. Finalmente, usar la sección 'Tests' para evaluar el nivel de conocimiento adquirido."
+          },
+          {
+            q: "¿La calculadora reemplaza el estudio teórico?",
+            a: "No. La calculadora es una herramienta de verificación y aprendizaje procedimental. No reemplaza el razonamiento analítico necesario para plantear los problemas correctamente. El estudiante debe entender qué está calculando."
+          },
+          {
+            q: "¿Cómo aprovechar los tests interactivos?",
+            a: "Los tests están enlazados a Kahoot y divididos por dificultad. Úsalos como un reto personal: empieza por el nivel fácil para afianzar conceptos básicos y avanza hasta el nivel difícil para poner a prueba tu capacidad de análisis."
+          }
+        ]
+      }
+    ];
+
+    return (
+      <div className="flex flex-col min-h-[calc(100vh-80px)] bg-slate-50 relative">
+        {/* Background Overlay */}
+        <div className="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1920&auto=format&fit=crop" 
+                alt="Forum Background" 
+                className="w-full h-full object-cover opacity-[0.03]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#003366]/5 to-slate-50/95"></div>
+        </div>
+
+        {/* Hero Section */}
+        <div className="relative z-10 bg-[#003366] text-white py-16 px-4">
+          <div className="container mx-auto text-center">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight">Foro y Preguntas Frecuentes</h1>
+            <p className="text-blue-200 text-lg font-light max-w-2xl mx-auto">Soporte académico y resolución de dudas para la comunidad estudiantil.</p>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-12 relative z-10 max-w-4xl">
+           
+           {/* Intro Card */}
+           <div className="bg-white p-8 rounded-xl shadow-lg border border-blue-100 mb-12 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+              <div className="bg-blue-50 p-5 rounded-full text-[#003366]">
+                 <HelpCircle size={40} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-gray-800 mb-2">¿Tienes dudas sobre Estadística?</h2>
+                <p className="text-gray-600 leading-relaxed">
+                  En esta sección resolvemos las inquietudes más comunes sobre la materia, el curso y el uso correcto de la plataforma SICE. Nuestro objetivo es brindarte apoyo rápido y claro para que optimices tu tiempo de estudio.
+                </p>
+              </div>
+           </div>
+
+           {/* FAQ Accordions */}
+           <div className="space-y-10">
+             {faqCategories.map((category, catIdx) => (
+               <div key={catIdx} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                  <div className="bg-[#f8fafc] px-6 py-4 border-b border-gray-100 flex items-center">
+                    <category.icon className="text-[#fbbf24] mr-3" size={24} />
+                    <h3 className="font-bold text-xl text-[#003366]">{category.title}</h3>
+                  </div>
+                  <div className="divide-y divide-gray-100">
+                    {category.questions.map((item, qIdx) => {
+                       const id = `${catIdx}-${qIdx}`;
+                       const isOpen = openFaqIndex === id;
+                       return (
+                         <div key={qIdx} className="group">
+                            <button 
+                              onClick={() => toggleFaq(id)}
+                              className={`w-full text-left px-6 py-4 flex justify-between items-center transition-colors hover:bg-slate-50 ${isOpen ? 'bg-slate-50' : ''}`}
+                            >
+                               <span className={`font-semibold text-sm md:text-base pr-4 ${isOpen ? 'text-[#003366]' : 'text-gray-700'}`}>
+                                 {item.q}
+                               </span>
+                               {isOpen ? <ChevronUp size={18} className="text-[#fbbf24] flex-shrink-0" /> : <ChevronDown size={18} className="text-gray-400 flex-shrink-0" />}
+                            </button>
+                            <div 
+                              className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+                            >
+                               <div className="px-6 pb-6 pt-2 text-gray-600 leading-relaxed text-sm md:text-base border-l-4 border-[#fbbf24] ml-6 mb-4 bg-gray-50/50 rounded-r-lg">
+                                 {item.a}
+                               </div>
+                            </div>
+                         </div>
+                       );
+                    })}
+                  </div>
+               </div>
+             ))}
+           </div>
+
+           {/* Suggestions Section */}
+           <div className="mt-16 bg-gradient-to-r from-[#003366] to-[#004080] rounded-2xl shadow-xl p-8 md:p-12 text-white text-center relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#fbbf24] opacity-10 rounded-full translate-y-1/2 -translate-x-1/2 blur-2xl"></div>
+              
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="bg-white/10 p-4 rounded-full mb-6 backdrop-blur-sm border border-white/20">
+                   <Lightbulb size={32} className="text-[#fbbf24]" />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">Ayúdanos a mejorar esta plataforma</h2>
+                <p className="text-blue-100 text-lg mb-8 max-w-2xl">
+                  SICE está en constante evolución. Tu opinión como estudiante es fundamental para nosotros. ¿Tienes alguna sugerencia, encontraste un error o se te ocurre una nueva función? ¡Queremos escucharte!
+                </p>
+                
+                <a 
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfcl1ALWzTEQHKcY1P7t2XdPMgk3h4XVQ66DvFPCUfrCSD4nw/viewform?usp=dialog" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-8 py-4 bg-[#fbbf24] hover:bg-yellow-400 text-[#003366] font-bold rounded-lg transition-all shadow-lg transform hover:-translate-y-1 group"
+                >
+                  <MessageSquare size={20} className="mr-2 group-hover:animate-bounce" />
+                  Enviar sugerencias / Encuesta
+                </a>
+              </div>
+           </div>
+
+        </div>
+      </div>
+    );
+  };
 
   const renderTests = () => (
     <div className="flex flex-col min-h-[calc(100vh-80px)] bg-slate-50 relative">
@@ -1399,6 +1589,7 @@ const App: React.FC = () => {
         {activeView === 'calculator' && renderCalculator()}
         {activeView === 'theory' && renderTheory()}
         {activeView === 'tests' && renderTests()}
+        {activeView === 'faq' && renderFAQ()}
         {activeView === 'credits' && renderCredits()}
       </main>
       <footer className="bg-[#002855] text-white py-6 mt-auto no-print border-t border-blue-900">
