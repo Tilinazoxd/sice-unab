@@ -731,13 +731,14 @@ const App: React.FC = () => {
                    <div className="absolute -top-16 -right-16 w-40 h-40 bg-blue-50 rounded-full transition-transform group-hover:scale-125 z-0"></div>
                    
                    <div className="relative z-10 flex flex-col items-center text-center">
-                      <div className="w-48 h-48 rounded-full p-2 bg-gradient-to-br from-[#003366] to-blue-500 mb-8 shadow-lg">
-                          <img 
-                            src={teacher?.image} 
-                            alt={teacher?.name}
-                            className="w-full h-full rounded-full object-cover border-4 border-white"
-                            onError={(e) => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1000"; }}
-                          />
+                      <div className="w-48 h-48 rounded-full mb-8 p-1 border-4 border-[#fbbf24] shadow-xl bg-white flex items-center justify-center overflow-hidden relative z-10">
+                          <div className="w-full h-full bg-[#003366] rounded-full flex flex-col items-center justify-center text-white">
+                              <div className="bg-white/10 p-3 rounded-full mb-2 backdrop-blur-sm">
+                                  <GraduationCap size={48} className="text-[#fbbf24]" />
+                              </div>
+                              <span className="font-bold text-2xl tracking-widest">UNAB</span>
+                              <span className="text-[10px] uppercase tracking-wider text-blue-200 mt-1">Docencia</span>
+                          </div>
                       </div>
                       <h4 className="text-3xl font-bold text-gray-900 mb-3">{teacher?.name}</h4>
                       <p className="text-[#003366] font-bold text-xl mb-6">{teacher?.role}</p>
